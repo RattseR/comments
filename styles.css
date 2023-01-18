@@ -1,0 +1,264 @@
+@import url('https://fonts.googleapis.com/css2?family=Rubik:wght@400;500;700&display=swap');
+@font-face {
+    font-family: 'Rubik', sans-serif;
+    src: url("https://fonts.googleapis.com/css2?family=Rubik:wght@400;500;700&display=swap");
+}
+
+body{
+    font-family: "rubik";
+    background-color: hsl(228, 33%, 97%);
+}
+p{
+    font-size:16px;
+    color: hsl(211, 10%, 45%);
+}
+.main-container {
+    width:100%;
+    max-width: 700px;
+    margin:auto;
+    display: flex;
+    flex-direction: column;
+}
+.user-area {
+    display:flex;
+    flex-direction: column;
+    width: 100%;
+}
+.user-top{
+    display:flex;
+    flex-direction: row;
+    justify-content: space-between;
+    margin-top:20px;
+    align-items: center;
+}
+.user-info{
+    display:flex;
+    flex-direction: row;
+    align-items: center;
+}
+
+.username{
+    color: hsl(212, 24%, 26%);
+}
+.comment-box{
+    display:flex;
+    flex-direction: row;
+    align-items:center ;
+    background-color: hsl(0, 0%, 100%);
+    border-radius: 10px;
+}
+.feedback{
+    display:flex;
+    flex-direction: column;
+    align-items: center;
+    margin-left:20px;
+    margin-right: 20px;
+}
+#like {
+    width:35px;
+    height:30px;
+    display:flex;
+    justify-content: center;
+    align-items: center;
+    border-top-left-radius: 8px;
+    border-top-right-radius: 8px;
+    background-color: hsl(228, 33%, 97%);
+}
+#dislike {
+    width:35px;
+    height:30px;
+    display:flex;
+    justify-content: center;
+    align-items: center;
+    border-bottom-left-radius: 8px;
+    border-bottom-right-radius: 8px;
+    background-color: hsl(228, 33%, 97%);
+}
+#result{
+    width:35px;
+    height:30px;
+    display:flex;
+    justify-content: center;
+    align-items: center;
+    color: hsl(238, 40%, 52%);
+    font-weight: 700;
+    background-color: hsl(228, 33%, 97%);
+}
+.comment-date {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+h4{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-top: 0px;
+    margin-bottom: 0px;
+    margin-right: 15px;
+}
+
+.you{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-right: 15px;
+    font-weight: 700;
+    color: white;
+    padding:5px 10px;
+
+    background-color:hsl(238, 40%, 52%) ;
+}
+
+.user-image{
+    width:50px;
+    margin-right: 15px;
+    
+}
+.user-image img {
+    width:100%;
+}
+.reply{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-right: 20px;
+    color:hsl(238, 40%, 52%);
+}
+.reply:hover{
+    opacity:0.5;
+    cursor: pointer;
+}
+.reply-text{
+    color:hsl(238, 40%, 52%);
+    font-weight: 700;
+}
+.reply-icon{
+    margin-right: 10px;
+}
+.comment{
+    margin-bottom: 20px;
+    padding-right: 20px;
+}
+
+.line{
+
+    width:80px;
+    background: linear-gradient(90deg, #0000 calc(100% - 2px),hsl(223, 19%, 93%)  0);
+    margin-right: 40px;
+    
+}
+.reply-box{
+    display: flex;
+    flex-direction: row;
+    order: 1;
+}
+
+.comment-reply {
+    margin-bottom: 20px;
+    order: 1;
+}
+.current-user-image{
+    width:60px;
+    margin-left: 20px;
+    margin-top: 20px;
+    margin-right: 20px;
+}
+
+.current-user-image img{
+    max-width: 100%;
+}
+.input-message {
+    width:70%;
+    max-width: calc(100% - 240px);
+    min-height: 60px;
+    margin-top: 20px;
+}
+.input-message textarea{
+    width: calc(100% - 4px);
+    margin: 0;
+    resize:none;
+    outline-color: hsl(238, 40%, 52%);
+    font-family: "rubik"!important;
+    font-size: 16px;
+    min-height: 60px;
+    height: auto;
+    border:1px solid hsl(239, 57%, 85%);
+    padding-top: 0;
+    border-radius: 8px;
+    margin-bottom: 20px;
+}
+#current-user-area{
+    align-items:unset;
+    order:2;
+    justify-content: space-between;
+}
+button{
+    cursor: pointer;
+}
+
+#sendbutton{
+    margin-right: 20px;
+    margin-left: 20px;
+    margin-top: 20px;
+    width:100px;
+    height: 40px;
+    font-family: "rubik"!important;
+    font-weight: 700;
+    color: white;
+    border:0px solid transparent;
+    border-radius: 8px;
+    background-color: hsl(238, 40%, 52%);
+}
+#sendbutton:hover{
+    opacity:0.5;
+}
+#sendbutton:focus {
+    outline-color: hsl(238, 40%, 52%)!important;
+}
+.delete-edit{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+}
+
+#delete-text {
+    color: hsl(358, 79%, 66%);
+}
+
+#replybutton{
+    margin-right: 20px;
+    margin-left: 20px;
+    margin-top: 20px;
+    width:100px;
+    height: 40px;
+    font-family: "rubik"!important;
+    font-weight: 700;
+    color: white;
+    border:0px solid transparent;
+    border-radius: 8px;
+    background-color: hsl(238, 40%, 52%);
+}
+#ss{
+    margin-right: 20px;
+    margin-left: 20px;
+    margin-top: 20px;
+    width:100px;
+    height: 40px;
+    font-family: "rubik"!important;
+    font-weight: 700;
+    color: white;
+    border:0px solid transparent;
+    border-radius: 8px;
+    background-color: hsl(238, 40%, 52%);
+}
+#current-reply-area{
+    align-items: unset;
+}
+
+#temporaryreply {
+    margin-top: 20px;
+}
+.send button:hover {
+    opacity:0.5;
+}
