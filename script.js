@@ -44,7 +44,7 @@ document.getElementById("main-container").innerHTML+= contents;
       for(let j=0; j<comments.comments[i].replies.length; j++){
 
       if(comments.comments[i].replies[j].user.username!=comments.currentUser.username){
-         let content = '<div class="reply-box">'+
+         let content = '<div class="reply-box myresponse">'+
          '<div class="line"></div>'+
          '<div class="comment-reply" commentid="'+comments.comments[i].id+'">'+
          '<div class="comment-box">'+
@@ -74,7 +74,7 @@ document.getElementById("main-container").innerHTML+= contents;
 
 document.getElementById("main-container").innerHTML+= content;
       } else {
-        let content = '<div class="reply-box">'+
+        let content = '<div class="reply-box myresponse">'+
         '<div class="line"></div>'+
         '<div class="comment-reply" commentid="'+comments.comments[i].id+'">'+
 '<div class="comment-box">'+
@@ -92,11 +92,11 @@ document.getElementById("main-container").innerHTML+= content;
       '<p  class="comment-date">'+comments.comments[i].replies[j].createdAt+'</p>'+
     '</div>'+
     '<div class="delete-edit">'+
-                '<div class="reply" id="delete">'+
+                '<div class="reply mycomdlt" id="delete">'+
                   '<div class="reply-icon"><img src="./images/icon-delete.svg"></div>'+
                   '<div><div class="reply-text" id="delete-text">Delete</div></div>'+
                 '</div>'+
-                '<div class="reply" id="edit">'+
+                '<div class="reply myreply" id="edit">'+
                   '<div class="reply-icon"><img src="./images/icon-edit.svg"></div>'+
                   '<div><div class="reply-text">Edit</div></div>'+
                 '</div>'+
@@ -116,7 +116,7 @@ document.getElementById("main-container").innerHTML+= content;
       }
    }  else if(comments.comments[i].content && comments.comments[i].user.username==comments.currentUser.username){
     
-    let usercontent = '<div class="comment-reply" commentid="'+comments.comments[i].id+'">'+
+    let usercontent = '<div class="comment-reply myresponse" commentid="'+comments.comments[i].id+'">'+
 '<div class="comment-box">'+
 '<div class="feedback">'+
   '<div id="like"><img src="./images/icon-plus.svg"></div>'+
@@ -132,11 +132,11 @@ document.getElementById("main-container").innerHTML+= content;
       '<p  class="comment-date">'+comments.comments[i].createdAt+'</p>'+
     '</div>'+
     '<div class="delete-edit">'+
-                '<div class="reply" id="delete">'+
+                '<div class="reply mycomdlt" id="delete">'+
                   '<div class="reply-icon"><img src="./images/icon-delete.svg"></div>'+
                   '<div class="reply-text" id="delete-text">Delete</div>'+
                 '</div>'+
-                '<div class="reply" id="edit">'+
+                '<div class="reply myreply" id="edit">'+
                   '<div class="reply-icon"><img src="./images/icon-edit.svg"></div>'+
                   '<div class="reply-text">Edit</div>'+
                 '</div>'+
@@ -203,17 +203,22 @@ const openReplyBox = async (event) => {
   let parent5 = parent4.parentNode;
   let parent6 = parent5.parentNode;
 
+  let usernameParent = event.target.closest('.user-top');
+  let username = usernameParent.querySelector('h4').innerHTML;
+  
   let replyComment = '<div class="comment-box" id="current-reply-area">'+
       '<div class="current-user-image"><img id="current-user-image" src="'+comments.currentUser.image.png+'"></div>'+
-      '<div class="input-message"><textarea id="userReply"></textarea></div>'+
+      '<div class="input-message"><textarea id="userReply">@'+username+' </textarea></div>'+
       '<div class="send"><button type="submit" id="replybutton">REPLY</button></div>'+
       '</div>';
-  let newdiv = document.createElement('div');
-  newdiv.setAttribute('id','temporaryreply');
-  newdiv.innerHTML += replyComment;    
+  if(!document.getElementById('temporaryreply')) { 
+          
+        let newdiv = document.createElement('div');
+        newdiv.setAttribute('id','temporaryreply');
+        newdiv.innerHTML += replyComment;    
+        
+        parent6.appendChild(newdiv);
   
-  parent6.appendChild(newdiv);
-
 const submitReply = document.getElementById('replybutton');
 submitReply.addEventListener('click', async (e)=>{
     let replytext = document.getElementById('userReply').value;
@@ -246,7 +251,54 @@ submitReply.addEventListener('click', async (e)=>{
     }
     
     if (replytext!=""){
-      await fetch('http://localhost:3000/comments?id=1',{
+      await fetch('http://localhost:3000/comments?id=1/replies',{
+      method: 'POST',
+      body: JSON.stringify(replyinfo),
+      headers: {'Content-Type': 'application/json'} 
+     })
+   }
+
+})} else {
+        document.getElementById('temporaryreply').remove();
+        let newdiv = document.createElement('div');
+        newdiv.setAttribute('id','temporaryreply');
+        newdiv.innerHTML += replyComment;    
+        
+        parent6.appendChild(newdiv);
+  
+const submitReply = document.getElementById('replybutton');
+submitReply.addEventListener('click', async (e)=>{
+    let replytext = document.getElementById('userReply').value;
+    let currentUserImage = comments.currentUser.image.png;
+    let currentUserUsername  = comments.currentUser.username;
+    let commentAuthor = parent3.getElementsByTagName('h4')[0].innerHTML;
+    let currentCommentId = parent6.getAttribute('commentid');
+    let path = '';
+    
+    
+    console.log(replytext);
+    console.log(currentUserImage);
+    console.log(currentUserUsername);
+    console.log(currentCommentId);
+    console.log(commentAuthor);
+   
+
+    let replyinfo = {
+        content: replytext,
+        createdAt: '1 day ago',
+        replyingTo: commentAuthor,
+        score: 0,
+        user: {
+            image:{
+              png:currentUserImage,
+              webp:currentUserImage
+            },
+            username:currentUserUsername
+        }
+    }
+    
+    if (replytext!=""){
+      await fetch('http://localhost:3000/comments?id=1/replies',{
       method: 'POST',
       body: JSON.stringify(replyinfo),
       headers: {'Content-Type': 'application/json'} 
@@ -254,6 +306,7 @@ submitReply.addEventListener('click', async (e)=>{
    }
 
 })
+}
   
 }
 
@@ -263,10 +316,16 @@ for  (let i=0; i<replyBox.length; i++) {
 
 }
 }
-/*if (document.getElementById('temporaryreply')){
-window.addEventListener('click', function(e){   
-  if (!document.getElementById('temporaryreply').contains(e.target)){
-    this.document.getElementById('temporaryreply').remove();
-  } 
-})
-}*/
+
+let deletebox = document.getElementsByClassName('mycomdlt');
+
+let deletecomment = (event) =>{
+    let newparent = event.target.closest('.myresponse');
+    newparent.remove();
+    
+}
+
+for (let i=0; i<deletebox.length; i++){
+  deletebox[i].addEventListener('click', deletecomment);
+}
+
