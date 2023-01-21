@@ -317,10 +317,18 @@ for  (let i=0; i<replyBox.length; i++) {
 }
 }
 
+//adding deletebutton event
+
 let deletebox = document.getElementsByClassName('mycomdlt');
 
-let deletecomment = (event) =>{
+let deletecomment = async (event) =>{
     let newparent = event.target.closest('.myresponse');
+    let commentId = parseInt(newparent.getAttribute('commentid'));
+    console.log(typeof commentId);
+    await fetch('http://localhost:3000/comments/'+commentId,{
+      method: 'DELETE',
+      })
+    
     newparent.remove();
     
 }
@@ -328,4 +336,71 @@ let deletecomment = (event) =>{
 for (let i=0; i<deletebox.length; i++){
   deletebox[i].addEventListener('click', deletecomment);
 }
+
+let editButtons = document.getElementsByClassName('myreply');
+
+let editComment = (event) => {
+    if(document.getElementById('edittext')){
+      let currentEdit = document.getElementById('edittext');
+      let currentEditContent = currentEdit.value;
+      let currentUserArea = currentEdit.closest('.user-area');
+      document.getElementById('updatebutton').remove();
+      document.getElementById('edittext').remove();
+      
+      let para = document.createElement('p');
+      para.setAttribute('class','comment');
+      para.innerHTML =  currentEditContent;
+      currentUserArea.appendChild(para);
+    }
+
+
+    let editParent = event.target.closest('.user-area');
+    let editParagraph = editParent.querySelector('.comment');
+    let textToEdit = editParagraph.innerHTML;
+    editParagraph.remove();
+    let editTextArea = document.createElement('textarea');
+    editTextArea.innerHTML = textToEdit;
+    editTextArea.setAttribute('class','edit-text-area');
+    editTextArea.setAttribute('id','edittext');
+    editParent.appendChild(editTextArea);
+
+    let updateButton = document.createElement('button');
+    updateButton.setAttribute('class', 'update-button');
+    updateButton.setAttribute('id', 'updatebutton');
+    updateButton.innerHTML = "UPDATE";
+    let updatediv = document.createElement('div');
+    updatediv.setAttribute('id', 'updatediv');
+    updatediv.appendChild(updateButton);
+    editParent.appendChild(updatediv);
+    
+    let focusText = document.getElementsByClassName('edit-text-area');
+    focusText[0].focus();
+    focusText[0].setSelectionRange(focusText[0].value.length,focusText[0].value.length);
+    
+    //  add eventlistener to update button
+
+      let updateComment = () => {
+      let updateButton1 = document.getElementById('updatebutton');
+      let currentUserArea1 = updateButton1.closest('.user-area');
+      let currentTextarea1 = currentUserArea1.querySelector('textarea');
+      let currentInput1 = currentTextarea1.value;
+      
+      let para = document.createElement('p');
+      para.setAttribute('class','comment');
+      para.innerHTML =  currentInput1;
+      currentUserArea1.appendChild(para);
+
+      updateButton1.remove();
+      currentTextarea1.remove();
+      
+    }
+
+    document.getElementById('updatebutton').addEventListener('click', updateComment);
+}
+
+for(let i=0; i<editButtons.length; i++ ){
+  editButtons[i].addEventListener('click', editComment);
+}
+
+
 
