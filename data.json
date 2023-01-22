@@ -79,18 +79,18 @@
       "id": 5
     },
     {
-      "content": "wefreeeeeeeeeeeeeeeeeeee fsssssssssssssssssssssd fsd fsd",
+      "id": 7,
+      "content": "dfgdf  gdfjhu  fghgggggggggggggggggggggggggggggggggggggggg  gggggggggggggggrthdfgg 123 12",
       "createdAt": "just now",
-      "score": 0,
+      "score": "0",
+      "replyingTo": "",
       "user": {
         "image": {
-          "png": "https://rattser.github.io/comments/images/avatars/image-juliusomo.png",
-          "webp": "https://rattser.github.io/comments/images/avatars/image-juliusomo.png"
+          "png": "./images/avatars/image-juliusomo.png",
+          "webp": "./images/avatars/image-juliusomo.png"
         },
         "username": "juliusomo"
-      },
-      "replies": [],
-      "id": 6
+      }
     }
   ]
 }
