@@ -325,13 +325,13 @@ let deletecomment = async (event) =>{
     let newparent = event.target.closest('.myresponse');
     let commentId = parseInt(newparent.getAttribute('commentid'));
     console.log(typeof commentId);
-    await fetch('http://localhost:3000/comments/'+commentId,{
+   await fetch('http://localhost:3000/comments/'+commentId,{
       method: 'DELETE',
       })
     
     newparent.remove();
     
-}
+} 
 
 for (let i=0; i<deletebox.length; i++){
   deletebox[i].addEventListener('click', deletecomment);
@@ -379,12 +379,76 @@ let editComment = (event) => {
     
     //  add eventlistener to update button
 
-      let updateComment = () => {
+      let updateComment =  () => {
       let updateButton1 = document.getElementById('updatebutton');
       let currentUserArea1 = updateButton1.closest('.user-area');
       let currentTextarea1 = currentUserArea1.querySelector('textarea');
       let currentInput1 = currentTextarea1.value;
+      let likesAmount = updateButton1.closest('.comment-box').querySelector('#result').innerHTML;
+      let comId;
+      if(!updateButton1.closest('.reply-box')){
+        comId = updateButton1.closest('.myresponse').getAttribute('commentid'); 
+      } else {
+        comId = updateButton1.closest('.comment-reply').getAttribute('commentid');
+      }
+
+
+      console.log(updateButton1.closest('.reply-box'));
       
+      let currentUserImage = comments.currentUser.image.png;
+      let currentUserUsername  = comments.currentUser.username;
+        
+      let editedComment={};
+      let replyTo = '';
+      for (let i=0; i<comments.comments.length; i++){
+        if(comments.comments[i].replies){
+          for (let j=0; j<comments.comments[i].replies.length; j++){
+            if(comments.comments[i].replies[j].id==comId) replyTo = comments.comments[i].replies[j].replyingTo;
+          }
+        }
+        
+      }
+
+      if(updateButton1.closest('.reply-box')){
+       editedComment = {
+        id: comId,
+        content: currentInput1,
+        createdAt: 'just now',
+        score: likesAmount,
+        user: {
+            image:{
+              png:currentUserImage,
+              webp:currentUserImage
+            },
+            username:currentUserUsername
+        },
+        replies:[]
+      }
+    }  
+    if(!updateButton1.closest('.reply-box')){   
+      editedComment = {
+        id: comId,
+        content: currentInput1,
+        createdAt: 'just now',
+        score: likesAmount,
+        replyingTo: replyTo,
+        user: {
+            image:{
+              png:currentUserImage,
+              webp:currentUserImage
+            },
+            username:currentUserUsername
+        }
+      }
+    }
+
+
+      fetch('http://localhost:3000/comments/'+comId,{
+      method: 'PUT',
+      body: JSON.stringify(editedComment),
+      headers: {'Content-Type': 'application/json'} 
+     })
+
       let para = document.createElement('p');
       para.setAttribute('class','comment');
       para.innerHTML =  currentInput1;
